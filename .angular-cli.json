@@ -1,12 +1,38 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "flexible-angular-dashboard"
+    "name": "dashng"
   },
   "apps": [
     {
-      "root": "src",
-      "outDir": "dist",
+      "name": "dashng",
+      "root": "src/dashng",
+      "outDir": "dist/dashng",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "index.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.dashng.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "dashng",
+      "styles": [
+        "styles.css"
+      ],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    },
+    {
+      "name": "dashngtest",
+      "root": "src/dashngtest",
+      "outDir": "dist/dashngtest",
       "assets": [
         "assets",
         "favicon.ico"
@@ -36,11 +62,19 @@
   },
   "lint": [
     {
-      "project": "src/tsconfig.app.json",
+      "project": "src/dashng/tsconfig.dashng.json",
       "exclude": "**/node_modules/**"
     },
     {
-      "project": "src/tsconfig.spec.json",
+      "project": "src/dashng/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/dashngtest/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/dashngtest/tsconfig.spec.json",
       "exclude": "**/node_modules/**"
     },
     {

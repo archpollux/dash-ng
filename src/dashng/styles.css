@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  position: absolute;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+dashng-dashboard {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  height: 100%;
+}
+
+dashng-container {
+  align-items: stretch;
+  display: flex;
+}
+
+dashng-widget-holder {
+  flex: 1 1 auto;
+  border: solid lightgray 1px;
+}
+
+.dashng-container-resizer {
+  flex: 0 0 5px;
+}
+
+.dashng-container-resizer.row {
+  cursor: row-resize;
+}
+
+.dashng-container-resizer.column {
+  cursor: col-resize;
+}

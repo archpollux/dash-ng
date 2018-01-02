@@ -1,0 +1,9 @@
+{
+  "mainComponent": "row",
+  "mainLayout": [33, 33, 34],
+  "subLayout": [
+    [20, 20, 60],
+    [30, 30, 40],
+    [32, 32, 46]
+  ]
+}
