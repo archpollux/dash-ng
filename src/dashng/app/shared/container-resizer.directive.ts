@@ -20,7 +20,7 @@ import 'rxjs/add/operator/takeUntil';
   selector: '[dashng-container-resizer]',
 })
 export class ContainerResizerDirective implements OnInit {
-  @Input() type: string;
+  @Input() flexType: string;
   @Input() component: object;
   @Input() nextComponent: object;
 
@@ -33,18 +33,17 @@ export class ContainerResizerDirective implements OnInit {
   constructor(@Inject(DOCUMENT) private document: any,
               private el: ElementRef,
               private renderer: Renderer2) {
-
-    if (this.type === 'row') {
-      this.eventField = 'movementX';
-    }
-    else {
-      this.eventField = 'movementY';
-    }
   }
 
   ngOnInit() {
+    if (this.flexType === 'row') {
+      this.eventField = 'movementY';
+    }
+    else {
+      this.eventField = 'movementX';
+    }
     this.renderer.addClass(this.el.nativeElement, 'dashng-container-resizer');
-    this.renderer.addClass(this.el.nativeElement, this.type);
+    this.renderer.addClass(this.el.nativeElement, this.flexType);
   }
 
   stopEvents() {
@@ -52,6 +51,7 @@ export class ContainerResizerDirective implements OnInit {
       this.moveEventsSub.unsubscribe();
       this.moveEventsSub = null;
     }
+    this.enableSelection();
   }
 
   getMouseMove$(): Observable<Event> {
@@ -64,6 +64,7 @@ export class ContainerResizerDirective implements OnInit {
 
   @HostListener('mousedown')
   onMouseDown() {
+    this.disableSelection();
     this.moveEventsSub = this.getMouseMove$()
       .takeUntil(this.getWindowMouseUp$())
       .map(event => event[this.eventField])
@@ -73,7 +74,7 @@ export class ContainerResizerDirective implements OnInit {
         },
         error => {
           console.error(error);
-          this.moveEventsSub.unsubscribe();
+          this.stopEvents();
         }
       )
     ;
@@ -84,9 +85,11 @@ export class ContainerResizerDirective implements OnInit {
     this.stopEvents();
   }
 
-  //@HostListener('body:mouseout')
-  onMouseOut() {
-    console.log('body:mouseout');
-    this.stopEvents();
+  disableSelection() {
+    this.renderer.addClass(this.document.body, 'no-user-selection');
+  }
+
+  enableSelection() {
+    this.renderer.removeClass(this.document.body, 'no-user-selection');
   }
 }

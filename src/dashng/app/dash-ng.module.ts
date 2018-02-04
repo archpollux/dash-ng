@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ContainerComponent } from './container/container.component';
 import { ContainerResizerDirective } from './shared/container-resizer.directive';
@@ -12,6 +13,7 @@ import { WidgetHolderComponent } from './widget-holder/widget-holder.component';
 @NgModule({
   imports: [
     BrowserModule,
+    FlexLayoutModule,
     HttpClientModule
   ],
   declarations: [

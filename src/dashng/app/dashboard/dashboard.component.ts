@@ -2,6 +2,7 @@ import {
   Attribute,
   Component,
   ElementRef,
+  HostListener,
 	OnDestroy,
   OnInit,
   Renderer2
@@ -21,7 +22,6 @@ import { ResizingComponent } from '../shared/resizing-component';
 export class DashboardComponent extends ResizingComponent implements OnDestroy, OnInit {
   private configUrl: string;
   private configSub: Subscription;
-  private config: ContainerConfig;
 
   constructor(el: ElementRef,
               renderer: Renderer2,
@@ -34,17 +34,24 @@ export class DashboardComponent extends ResizingComponent implements OnDestroy, 
     this.configSub = this.configService
       .getConfig(this.configUrl)
       .subscribe(
-        thisContainer => this.setConfig(thisContainer),
+        config => this.setConfig(config),
         console.error.bind(console)
       )
     ;
   }
 
-  setConfig(thisContainer: ContainerConfig) {
-    this.config = thisContainer;
+  setConfig(config: ContainerConfig) {
+    console.log('config', config);
+    this.config = this.normalizeChildren(config);
   }
 
   ngOnDestroy() {
     this.configSub.unsubscribe();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event) {
+    console.log('this.config', this.config);
+    this.getActualSize(this.config.flexType);
   }
 }

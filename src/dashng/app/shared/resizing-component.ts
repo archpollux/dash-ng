@@ -1,9 +1,7 @@
 import {
   Component,
   ElementRef,
-  HostListener,
   Input,
-  OnInit,
   QueryList,
   Renderer2,
   ViewChildren
@@ -12,39 +10,46 @@ import {
 import { ContainerConfig, FlexContainerType } from './dashboard-config.model';
 
 export abstract class ResizingComponent {
-  @Input() components: ContainerConfig[];
-  @Input() flexType: FlexContainerType;
+  @Input() config: ContainerConfig;
   @Input() flexSize: number;
-
-  @ViewChildren('dashng-container') containers: QueryList<ResizingComponent>;
 
   constructor(protected el: ElementRef,
               protected renderer: Renderer2) { }
 
-  getActualSize() {
+  getActualSize(flexType: FlexContainerType) {
     const el = this.el.nativeElement;
-    this.flexSize = this.flexType === FlexContainerType.row ? el.offsetHeight : el.offsetWidth;
-    console.log('flexSize', this.flexSize);
-  }
-
-  ngAfterViewInit() {
-    console.log('containers', this.containers);
-    this.getActualSize();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(event: Event) {
-    this.getActualSize();
+    return flexType === FlexContainerType.row ? el.offsetHeight : el.offsetWidth;
   }
 
   resizeContainers(delta: number,
-                   container1: ContainerConfig,
-                   container2: ContainerConfig
+                   childIndex1: number,
+                   childIndex2: number
   ) {
     if (!delta) return;
-    console.log(delta, container1.flexSize, container2.flexSize);
-    container1.flexSize += delta;
-    container2.flexSize -= delta;
-    console.log(container1.flexSize, container2.flexSize);
+
+    const container1 = this.config.components[childIndex1];
+    const container2 = this.config.components[childIndex2];
+
+    if (container1.flexSize + delta >= 0) {
+      container1.flexSize += delta;
+    }
+
+    if (container2.flexSize - delta <= this.flexSize) {
+      container2.flexSize -= delta;
+    }
+  }
+
+  normalizeChildren(config: ContainerConfig): ContainerConfig {
+    if (!(config.components && config.components.length)) return config;
+
+    const total = config.components.reduce((sum, item) => sum + item.flexSize, 0);
+    const size = this.getActualSize(config.components[0].flexType);
+
+    config.components.forEach(component => {
+      console.log(size, total, component.flexSize);
+      component.size = Math.round(size / total * component.flexSize);
+    });
+
+    return config;
   }
 }

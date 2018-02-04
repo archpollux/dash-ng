@@ -1,19 +1,18 @@
 <header>Header {{ this.configUrl }}</header>
-<main *ngIf="config" [style.flex-flow]="config?.flexType">
+<main *ngIf="config" [style.flex-flow]="config.flexType">
   <ng-template ngFor
                let-component
-               [ngForOf]="config?.components"
+               [ngForOf]="config.components"
                let-firstMain="first"
                let-mainIndex="index"
   >
     <div dashng-container-resizer *ngIf="!firstMain"
-                                  [type]="component.flexType"
-                                  (resize)="resizeContainers($event, config.components[mainIndex-1], component)"
+                                  [flexType]="component.flexType"
+                                  (resize)="resizeContainers($event, mainIndex-1, mainIndex)"
     ></div>
-    <dashng-container [flexSize]="component.flexSize"
-                      [components]="component.components"
-                      [style.flex-grow]="component.flexSize"
-                      [style.flex-shrink]="component.flexSize"
+    <dashng-container #child [config]="component"
+                             [style.flex-grow]="component.flexSize"
+                             [style.flex-shrink]="component.flexSize"
     ></dashng-container>
   </ng-template>
 </main>

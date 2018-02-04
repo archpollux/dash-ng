@@ -28,4 +28,10 @@ export class ContainerComponent extends ResizingComponent {
               renderer: Renderer2) {
     super(el, renderer);
   }
+
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit', this);
+    this.config = this.normalizeChildren(this.config);
+    this.initialized = true;
+  }
 }

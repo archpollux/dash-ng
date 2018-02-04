@@ -8,6 +8,10 @@ body {
   height: 100%;
 }
 
+.no-user-selection {
+  user-select: none;
+}
+
 dashng-dashboard {
   display: flex;
   flex-flow: column;
@@ -22,7 +26,7 @@ dashng-container {
 
 dashng-widget-holder {
   flex: 1 1 auto;
-  border: solid lightgray 1px;
+  border: dashed lightgray 1px;
 }
 
 .dashng-container-resizer {
@@ -35,4 +39,8 @@ dashng-widget-holder {
 
 .dashng-container-resizer.column {
   cursor: col-resize;
+}
+
+.dashng-container-resizer.moving {
+  background-color: lightgray;
 }
