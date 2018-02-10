@@ -27,12 +27,14 @@ export class DashboardConfigService {
       const childSize = config.subLayout[index].reduce((sum, item) => sum + item);
       const childContainer = new ContainerConfig(
         config.mainComponent,
-        100.0 * size / mainSize,
+        size,
+        size,
         mainContainer
       );
       childContainer.components = config.subLayout[index].map(subSize => new ContainerConfig(
         this.flipContainerType(config.mainComponent),
-        100.0 * subSize / childSize,
+        subSize,
+        subSize,
         childContainer
       ));
       return childContainer;

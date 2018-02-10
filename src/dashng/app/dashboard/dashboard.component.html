@@ -11,8 +11,8 @@
                                   (resize)="resizeContainers($event, mainIndex-1, mainIndex)"
     ></div>
     <dashng-container #child [config]="component"
-                             [style.flex-grow]="component.flexSize"
-                             [style.flex-shrink]="component.flexSize"
+                             [style.flex-grow]="component.size"
+                             [style.flex-shrink]="component.size"
     ></dashng-container>
   </ng-template>
 </main>

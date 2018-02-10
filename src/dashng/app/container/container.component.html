@@ -1,16 +1,14 @@
-<ng-template [ngIf]="initialized">
-  <ng-template ngFor let-component [ngForOf]="config.components" let-compIndex="index" let-firstComp="first">
-    <div dashng-container-resizer *ngIf="!firstComp"
-                                  [flexType]="component.flexType"
-                                  (resize)="resizeContainers($event, compIndex-1, compIndex)"
-    ></div>
-    <dashng-container #child [config]="component"
-                             [style.flex-grow]="component.size"
-                             [style.flex-shrink]="component.size"
-    ></dashng-container>
-  </ng-template>
-  <dashng-widget-holder #holder
-                        *ngIf="!config.components?.length"
-                        [widget]="widget"
-  ></dashng-widget-holder>
+<ng-template ngFor let-component [ngForOf]="config.components" let-compIndex="index" let-firstComp="first">
+  <div dashng-container-resizer *ngIf="!firstComp"
+                                [flexType]="component.flexType"
+                                (resize)="resizeContainers($event, compIndex-1, compIndex)"
+  ></div>
+  <dashng-container #child [config]="component"
+                           [style.flex-grow]="component.size"
+                           [style.flex-shrink]="component.size"
+  ></dashng-container>
 </ng-template>
+<dashng-widget-holder #holder
+                      *ngIf="!config.components?.length"
+                      [widget]="widget"
+></dashng-widget-holder>

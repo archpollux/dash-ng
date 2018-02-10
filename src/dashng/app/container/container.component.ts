@@ -1,5 +1,6 @@
 import {
   Attribute,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -19,19 +20,27 @@ import { WidgetHolderComponent } from '../widget-holder/widget-holder.component'
 @Component({
   selector: 'dashng-container',
   templateUrl: './container.component.html',
-  styleUrls: ['./container.component.css']
+  styleUrls: ['./container.component.css'],
 })
 export class ContainerComponent extends ResizingComponent {
+  sizeAcquired: EventEmitter<number>;
+
   @ViewChild(WidgetHolderComponent) widgetHolder: WidgetHolderComponent;
 
   constructor(el: ElementRef,
-              renderer: Renderer2) {
-    super(el, renderer);
+              protected cd: ChangeDetectorRef) {
+    super(el);
+    this.cd.detach();
+    this.sizeAcquired = new EventEmitter<number>();
+    this.sizeSub = this.sizeAcquired.subscribe(actualSize => {
+      this.sizeSub.unsubscribe();
+      this.normalizeChildren(this.config);
+      let reattach = this.cd.reattach.bind(this.cd);
+      setTimeout(reattach, 0);
+    });
   }
 
-  ngAfterViewInit() {
-    console.log('ngAfterViewInit', this);
-    this.config = this.normalizeChildren(this.config);
-    this.initialized = true;
+  ngAfterViewChecked() {
+    this.sizeAcquired.emit(this.getActualSize(ContainerConfig.oppositeType(this.config.flexType)));
   }
 }
