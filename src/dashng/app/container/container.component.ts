@@ -12,6 +12,7 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ContainerConfig } from '../shared/dashboard-config.model';
 import { ResizingComponent } from '../shared/resizing-component';
@@ -24,6 +25,7 @@ import { WidgetHolderComponent } from '../widget-holder/widget-holder.component'
 })
 export class ContainerComponent extends ResizingComponent {
   sizeAcquired: EventEmitter<number>;
+  sizeSub: Subscription;
 
   @ViewChild(WidgetHolderComponent) widgetHolder: WidgetHolderComponent;
 

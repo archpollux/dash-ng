@@ -26,7 +26,7 @@ export class DashboardComponent extends ResizingComponent implements OnDestroy, 
   constructor(el: ElementRef,
               renderer: Renderer2,
               private configService: DashboardConfigService) {
-    super(el, renderer);
+    super(el);
     this.configUrl = this.el.nativeElement.getAttribute('config-url');
   }
 

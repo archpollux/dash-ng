@@ -50,7 +50,7 @@ export abstract class ResizingComponent {
       container1.size += delta;
     }
 
-    if (container2.size - delta <= this.size) {
+    if (container2.size - delta <= this.config.size) {
       container2.size -= delta;
     }
   }
